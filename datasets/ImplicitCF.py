@@ -50,7 +50,7 @@ class ImplicitCF(object):
         print('Using validation set: ', with_validation)
 
         if dataset == 'ml-1m':
-            filename = '../data/ml-1m/ratings.dat'
+            filename = 'data/ml-1m/ratings.dat'
             header = ['userID', 'itemID', 'rating', 'timestamp']
             dtypes = {h: np.int32 for h in header}
             df = pd.read_csv(
@@ -58,15 +58,15 @@ class ImplicitCF(object):
             )
 
         elif dataset == 'yelp' or dataset == 'gowalla':
-            train_file = '../data/{}/train.txt'.format(dataset)
-            test_file = '../data/{}/test.txt'.format(dataset)
+            train_file = 'data/{}/train.txt'.format(dataset)
+            test_file = 'data/{}/test.txt'.format(dataset)
 
             train, user_set, item_set = construct_dict(train_file, set(), set())
             test, user_set, item_set = construct_dict(test_file, user_set, item_set)
             df = pd.concat([train, test])
 
         elif dataset == 'ml-25m':
-            filename = '../data/ml-25m/ratings.csv'
+            filename = 'data/ml-25m/ratings.csv'
             header = ['userID', 'itemID', 'rating']
             dtypes = {h: np.int32 for h in header}
             df = pd.read_csv(

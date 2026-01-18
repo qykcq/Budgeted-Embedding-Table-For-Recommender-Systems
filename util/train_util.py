@@ -1,6 +1,6 @@
 import os
 import math
-from ImplicitCF import ImplicitCF
+from datasets.ImplicitCF import ImplicitCF
 from module import config
 from util.eval_util import eval_rec
 from util.IO_util import logtxt

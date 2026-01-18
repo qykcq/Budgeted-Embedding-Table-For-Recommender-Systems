@@ -2,6 +2,7 @@ from module import config
 from module.DeepSets import DeepSets
 import numpy as np
 import torch
+import time 
 from module.Population import Population
 from util.eval_util import eval_rec
 from util.IO_util import logtxt, save_progress, clear_dist_and_losses
@@ -29,6 +30,7 @@ class Engine:
 
         self.critic.train()
         for step in range(config.EVO_SEARCH_ITERATIONS):
+            start = time.perf_counter()
             logtxt('-' * 35 + 'step {}'.format(step) + '-' * 35)
 
             sampled_actions = sampler.action_sampler(budget)
@@ -50,7 +52,8 @@ class Engine:
             logtxt(message.format(
                 step, pred_score.item(), normalised_rq, critic_loss
             ))
-
+            duration = time.perf_counter() - start
+            print(f"epoch {epoch}: {duration:.4f}s")
             save_progress(step, action_selected, losses)
 
     def probe_action(self, action):

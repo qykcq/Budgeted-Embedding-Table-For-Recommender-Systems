@@ -9,7 +9,7 @@ IDs = {
         0: 0.2
     }
 }
-config.BASE_MODEL = 'ngcf'
+config.BASE_MODEL = 'lightgcn'
 config.NUM_SAMPLES = 100
 
 

@@ -111,16 +111,16 @@ def get_pretrained_recsys(dataset):
     user_sizes = np.ones(dataset.n_users, dtype=int) * config.MAX_EMB_SIZE
     item_sizes = np.ones(dataset.n_items, dtype=int) * config.MAX_EMB_SIZE
     recsys = get_fresh_recommender(dataset, user_sizes, item_sizes)
-    folder = 'tmp/pretrained/{}/{}/'.format(config.DATASET_NAME, config.BASE_MODEL)
-    if not os.path.exists(folder):
-        os.makedirs(folder)
-    path = folder + 'trained_{}_random_False'.format(1.0)
-    try:
-        recsys.load_state_dict(torch.load(path + '.pth'))
-    except Exception as e:
-        print(e)
-        print('Failed to load the pretrained model. Now pretraining the model')
-        train_till_convergence(recsys, dataset, path)
+    # folder = 'tmp/pretrained/{}/{}/'.format(config.DATASET_NAME, config.BASE_MODEL)
+    # if not os.path.exists(folder):
+    #     os.makedirs(folder)
+    # path = folder + 'trained_{}_random_False'.format(1.0)
+    # try:
+    #     recsys.load_state_dict(torch.load(path + '.pth'))
+    # except Exception as e:
+    #     print(e)
+    #     print('Failed to load the pretrained model. Now pretraining the model')
+    #     train_till_convergence(recsys, dataset, path)
 
     if config.MAX_RQ[config.DATASET_NAME] == 0:
         print('Computing MAX RQ...')

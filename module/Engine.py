@@ -53,7 +53,7 @@ class Engine:
                 step, pred_score.item(), normalised_rq, critic_loss
             ))
             duration = time.perf_counter() - start
-            print(f"epoch {epoch}: {duration:.4f}s")
+            print(f"Step {step} duration: {duration:.4f}s")
             save_progress(step, action_selected, losses)
 
     def probe_action(self, action):

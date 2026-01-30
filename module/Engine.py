@@ -4,7 +4,7 @@ import numpy as np
 import torch
 import time 
 from module.Population import Population
-from util.eval_util import eval_rec
+from util.eval_util import eval_rec, eval_rec_fast
 from util.IO_util import logtxt, save_progress, clear_dist_and_losses
 from util.train_util import initialize_dataset, train_T_epochs, get_pretrained_recsys
 from module.ReplyBuffer import ReplyBuffer

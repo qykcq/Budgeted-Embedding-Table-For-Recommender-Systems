@@ -66,8 +66,12 @@ class Engine:
         # fine-tuning
         recsys = train_T_epochs(recsys, self.dataset, config.FINE_TUNE_EPOCHS)
 
-        sampling_ratio = {'gowalla': 0.5, 'yelp': 0.5, 'ml-1m': 1.0}[config.DATASET_NAME]
+        sampling_ratio = {'gowalla': 1.0, 'yelp': 1.0, 'ml-1m': 1.0}[config.DATASET_NAME]
         rq = eval_rec(recsys, self.dataset, sampling_ratio)
+        rq_fast = eval_rec_fast(recsys, self.dataset, sampling_ratio)
+        print(rq)
+        print('------')
+        print(rq_fast)
         return rq
 
     def get_action_emb_and_score(self, action):

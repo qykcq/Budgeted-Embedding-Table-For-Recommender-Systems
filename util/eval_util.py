@@ -94,8 +94,6 @@ def process_ranking_metrics(recalls_5, recalls_10, recalls_20, ndcgs_5, ndcgs_10
 #     return process_ranking_metrics(recalls_5, recalls_10, recalls_20, ndcgs_5, ndcgs_10, ndcgs_20)
 
 def eval_rec(recsys, dataset, user_sample_ratio, ks=(5, 10, 20)):
-    t1 = time.time()
-
     sampled_users = np.random.choice(
         np.asarray(dataset.user_vocab),
         round(user_sample_ratio * dataset.n_users),
@@ -162,8 +160,6 @@ def eval_rec(recsys, dataset, user_sample_ratio, ks=(5, 10, 20)):
                 ideal_len = int(min(total_pos, kk))
                 idcg = discounts[:ideal_len].sum()
                 ndcgs[k].append((dcg_prefix[kk - 1] / idcg) if idcg > 0 else 0.0)
-
-    print('Time used (fast eval version): {:.2f}'.format(time.time() - t1))
     return process_ranking_metrics(
         recalls[5], recalls[10], recalls[20],
         ndcgs[5], ndcgs[10], ndcgs[20]

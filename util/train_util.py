@@ -83,7 +83,7 @@ def train_till_convergence(recsys, dataset, path):
     patience = config.MAX_PATIENCE
     best_metric = {'ml-25m': 1e10, 'yelp': 0, 'ml-1m': 0, 'gowalla': 0}[config.DATASET_NAME]
     sampling_ratio = {
-        'ml-25m': [0.1, 0.5], 'yelp': [0.1, 1.0], 'ml-1m': [1.0, 1.0], 'gowalla': [0.1, 1.0]
+        'ml-25m': [1, 1], 'yelp': [1, 1], 'ml-1m': [1, 1], 'gowalla': [1, 1]
     }[config.DATASET_NAME]
 
     recsys.train()

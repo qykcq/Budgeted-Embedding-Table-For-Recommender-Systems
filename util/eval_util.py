@@ -93,6 +93,82 @@ def eval_rec(recsys, dataset, user_sample_ratio):
     print('Time used: {:.2f}'.format(time.time() - t1))
     return process_ranking_metrics(recalls_5, recalls_10, recalls_20, ndcgs_5, ndcgs_10, ndcgs_20)
 
+def eval_rec_fast(recsys, dataset, user_sample_ratio, ks=(5, 10, 20)):
+    t1 = time.time()
+
+    sampled_users = np.random.choice(
+        np.asarray(dataset.user_vocab),
+        round(user_sample_ratio * dataset.n_users),
+        replace=False
+    )
+    sampled_items = np.asarray(dataset.item_vocab)
+
+    max_k = max(ks)
+
+    # Precompute DCG discounts once
+    discounts = 1.0 / np.log2(np.arange(2, max_k + 2))  # [max_k]
+
+    recalls = {k: [] for k in ks}
+    ndcgs   = {k: [] for k in ks}
+
+    # Your code had chunking but chunk=1; keep structure for future scaling
+    chunk_size = math.ceil(len(sampled_users) / 1)
+    for chunk in range(1):
+        start_ind = chunk * chunk_size
+        end_ind = min(len(sampled_users), (chunk + 1) * chunk_size)
+        users_in_chunk = sampled_users[start_ind:end_ind]
+
+        y_pred, topk_ind = get_y_pred(recsys, users_in_chunk, sampled_items, dataset)
+        y_pred = np.asarray(y_pred)
+        topk_ind = np.asarray(topk_ind)
+
+        assert len(y_pred) == len(users_in_chunk)
+        assert topk_ind.shape[0] == len(users_in_chunk)
+
+        # If topk_ind contains more than max_k, truncate (and keep order!)
+        if topk_ind.shape[1] > max_k:
+            topk_ind = topk_ind[:, :max_k]
+
+        for row_idx, user_id in enumerate(users_in_chunk):
+            # Get y_true for this user once
+            y_true_full = dataset.get_y_true_by_user(user_id)
+            rel = np.asarray(y_true_full[sampled_items])  # [num_items]
+            scores = y_pred[row_idx]
+
+            # Total positives in candidate set
+            total_pos = float(rel.sum())
+            if total_pos <= 0:
+                for k in ks:
+                    recalls[k].append(0.0)
+                    ndcgs[k].append(0.0)
+                continue
+
+            # Relevance on the ranked topK items (already selected by the model)
+            idx = topk_ind[row_idx]  # indices into rel/scores
+            top_rel = rel[idx].astype(np.float64)
+
+            # Prefix sums for Recall@K
+            cumsum_rel = np.cumsum(top_rel)  # [max_k]
+            # Prefix DCG
+            dcg_prefix = np.cumsum(top_rel * discounts[:len(top_rel)])
+
+            for k in ks:
+                # handle case when topk_ind provides <k items
+                kk = min(k, len(top_rel))
+                hit_k = cumsum_rel[kk - 1]
+                recalls[k].append(hit_k / total_pos)
+
+                # Binary IDCG depends only on total_pos
+                ideal_len = int(min(total_pos, kk))
+                idcg = discounts[:ideal_len].sum()
+                ndcgs[k].append((dcg_prefix[kk - 1] / idcg) if idcg > 0 else 0.0)
+
+    print('Time used (fast eval version): {:.2f}'.format(time.time() - t1))
+    return process_ranking_metrics(
+        recalls[5], recalls[10], recalls[20],
+        ndcgs[5], ndcgs[10], ndcgs[20]
+    )
+
 
 def get_y_pred(recsys, sampled_users, sampled_items, dataset):
     """Score all items for test users.

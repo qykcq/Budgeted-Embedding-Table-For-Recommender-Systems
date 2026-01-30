@@ -54,7 +54,7 @@ class Engine:
             ))
             duration = time.perf_counter() - start
             print(f"Step {step} duration: {duration:.4f}s")
-            # save_progress(step, action_selected, losses)
+            save_progress(step, action_selected, losses)
 
     def probe_action(self, action):
         # initialise a pretrained recommender

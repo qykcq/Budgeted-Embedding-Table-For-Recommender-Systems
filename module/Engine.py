@@ -4,7 +4,7 @@ import numpy as np
 import torch
 import time 
 from module.Population import Population
-from util.eval_util import eval_rec, eval_rec_fast
+from util.eval_util import eval_rec
 from util.IO_util import logtxt, save_progress, clear_dist_and_losses
 from util.train_util import initialize_dataset, train_T_epochs, get_pretrained_recsys
 from module.ReplyBuffer import ReplyBuffer
@@ -54,7 +54,7 @@ class Engine:
             ))
             duration = time.perf_counter() - start
             print(f"Step {step} duration: {duration:.4f}s")
-            save_progress(step, action_selected, losses)
+            # save_progress(step, action_selected, losses)
 
     def probe_action(self, action):
         # initialise a pretrained recommender
@@ -67,12 +67,7 @@ class Engine:
         recsys = train_T_epochs(recsys, self.dataset, config.FINE_TUNE_EPOCHS)
 
         sampling_ratio = {'gowalla': 1.0, 'yelp': 1.0, 'ml-1m': 1.0}[config.DATASET_NAME]
-        rq = eval_rec(recsys, self.dataset, sampling_ratio)
-        rq_fast = eval_rec_fast(recsys, self.dataset, sampling_ratio)
-        print(rq)
-        print('------')
-        print(rq_fast)
-        return rq
+        return eval_rec(recsys, self.dataset, sampling_ratio)
 
     def get_action_emb_and_score(self, action):
         assert isinstance(self.critic, DeepSets)

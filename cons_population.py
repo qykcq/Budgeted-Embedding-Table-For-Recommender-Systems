@@ -7,7 +7,8 @@ IDs = {
     'gowalla': {
         # task ID and compression ratio
         0: 0.2
-    }
+    },
+    'yelp': {0: 0.2}
 }
 config.BASE_MODEL = 'lightgcn'
 config.NUM_SAMPLES = 100

@@ -36,8 +36,8 @@ def eval_population():
             # steps = list(range(0, 50, 1))
             steps = list(range(49, -1, -1))
 
-            pl = PopulationListener()
-            pl.listen_to_population(
+            pl = PopulationEvaluator()
+            pl.eval_population(
                 steps=[0],
                 k=3  # select the top k=3
             )

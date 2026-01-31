@@ -6,5 +6,5 @@ from base_recsys.LightGCN import LightGCN
 config.DATASET_NAME = 'gowalla'
 config.BASE_MODEL = 'lightgcn'
 dataset = initialize_dataset(with_validation=True)
-LightGCN(dataset).to(config.device)
+recsys = LightGCN(dataset).to(config.device)
 eval_rec(recsys, dataset, 1)

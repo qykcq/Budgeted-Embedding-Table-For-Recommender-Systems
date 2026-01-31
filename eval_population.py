@@ -2,7 +2,7 @@ from module import config
 import os
 import time
 from util.train_util import logtxt
-from module.PopulationListener import PopulationListener
+from module.PopulationEvaluator import PopulationEvaluator
 
 
 IDs = {

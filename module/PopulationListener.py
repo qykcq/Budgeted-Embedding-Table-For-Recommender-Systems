@@ -41,7 +41,7 @@ class PopulationListener:
 
         _ = train_till_convergence(recsys, dataset, path)
 
-        rq = eval_rec(recsys, dataset, 'test')
+        rq = eval_rec(recsys, dataset, 1)
         return rq
 
     def listen_to_population(self, steps, k=3):

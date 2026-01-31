@@ -20,7 +20,7 @@ class PopulationListener:
             self.evaluated = []
         self.best_actions = PriorityQueue()
 
-        self.dataset = initialize_dataset()
+        self.dataset = initialize_dataset(with_validation=False)
 
     def eval_rec_with_action(self, action, dataset):
         user_sizes, item_sizes = action.get_array_form()

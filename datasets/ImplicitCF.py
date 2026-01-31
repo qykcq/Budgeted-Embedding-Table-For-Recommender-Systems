@@ -296,6 +296,8 @@ class ImplicitCF(object):
             norm_adj_mat = d_mat_inv.dot(adj_mat)
             norm_adj_mat = norm_adj_mat.dot(d_mat_inv)
             return norm_adj_mat.tocsr()
+        else:
+            raise ValueError("Invalid choice of base recommender.")
 
     def train_loader(self, batch_size):
         """Sample train data every batch. One positive item and one negative item sampled for each user.

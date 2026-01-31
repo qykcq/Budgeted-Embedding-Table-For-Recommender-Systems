@@ -14,8 +14,8 @@ class LightGCN(nn.Module):
         self.num_items = self.dataset.n_items
 
         if user_sizes is None:
-            user_sizes = np.ones(self.num_users) * MAX_EMB_SIZE
-            item_sizes = np.ones(self.num_items) * MAX_EMB_SIZE
+            user_sizes = np.ones(self.num_users) * config.MAX_EMB_SIZE
+            item_sizes = np.ones(self.num_items) * config.MAX_EMB_SIZE
 
         self.max_emb = max(max(user_sizes), max(item_sizes))
 

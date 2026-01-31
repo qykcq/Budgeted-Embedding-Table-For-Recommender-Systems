@@ -38,7 +38,7 @@ def eval_population():
 
             pl = PopulationListener()
             pl.listen_to_population(
-                steps=steps,
+                steps=[0],
                 k=3  # select the top k=3
             )
 

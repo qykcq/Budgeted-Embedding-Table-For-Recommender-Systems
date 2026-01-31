@@ -4,6 +4,7 @@ from util.eval_util import eval_rec
 from base_recsys.LightGCN import LightGCN
 
 config.DATASET_NAME = 'gowalla'
+
 dataset = initialize_dataset(with_validation=True)
 LightGCN(dataset).to(config.device)
 eval_rec(recsys, dataset, 1)

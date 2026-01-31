@@ -36,7 +36,7 @@ class ImplicitCF(object):
         self,
         base_model,
         dataset,
-        with_validation=False
+        with_validation=True
     ):
         self.user_idx = None
         self.item_idx = None

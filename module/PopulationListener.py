@@ -12,7 +12,7 @@ from queue import PriorityQueue
 from module.Action import Action
 
 
-class PopulationListener:
+class PopulationEvaluator:
     def __init__(self, evaluated=None):
         if evaluated is not None:
             self.evaluated = evaluated
@@ -44,23 +44,16 @@ class PopulationListener:
         rq = eval_rec(recsys, dataset, 1)
         return rq
 
-    def listen_to_population(self, steps, k=3):
+    def eval_population(self, steps, k=3):
         config.VERBOSITY = 1
         clear_output_log()
 
         previous_e = ''
         while len(steps) > 0:
             step = steps[0]
-            try:
-                population = load_progress(step, self.dataset)
-                steps.pop(0)
-            except Exception as e:
-                if previous_e != str(e):
-                    previous_e = str(e)
-                    print(e)
-                time.sleep(2.0)
-                continue
-
+            population = load_progress(step, self.dataset)
+            steps.pop(0)
+           
             # print information of the top k actions
             top_actions, _ = population.get_best_action(k)
             top_timestamps = [action.timestamp for action in top_actions]

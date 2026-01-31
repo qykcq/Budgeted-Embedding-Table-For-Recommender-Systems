@@ -111,12 +111,14 @@ def eval_rec(recsys, dataset, user_sample_ratio, ks=(5, 10, 20)):
 
     # Your code had chunking but chunk=1; keep structure for future scaling
     chunk_size = math.ceil(len(sampled_users) / 1)
+    t1 = time.time()
     for chunk in range(1):
         start_ind = chunk * chunk_size
         end_ind = min(len(sampled_users), (chunk + 1) * chunk_size)
         users_in_chunk = sampled_users[start_ind:end_ind]
 
         y_pred, topk_ind = get_y_pred(recsys, users_in_chunk, sampled_items, dataset)
+        print('Time used for computing get_y_pred', time.time() - t1)
         y_pred = np.asarray(y_pred)
         topk_ind = np.asarray(topk_ind)
 

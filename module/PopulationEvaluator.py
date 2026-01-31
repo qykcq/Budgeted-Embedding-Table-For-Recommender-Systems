@@ -24,8 +24,7 @@ class PopulationEvaluator:
 
     def eval_rec_with_action(self, action, dataset):
         # user_sizes, item_sizes = action.get_array_form()
-        usser_sizes = np.ones(dataset.user_num) * 128
-        item_sizes = np.ones(dataset.item_num) * 128
+       
         # initialise a new recommender
         if config.BASE_MODEL == 'lightgcn':
             recsys = LightGCN(dataset, user_sizes, item_sizes).to(config.device)

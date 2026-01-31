@@ -5,13 +5,17 @@ import torch.nn as nn
 
 
 class LightGCN(nn.Module):
-    def __init__(self, dataset, user_sizes, item_sizes):
+    def __init__(self, dataset, user_sizes=None, item_sizes=None):
         super(LightGCN, self).__init__()
         self.dataset = dataset
         self.droput = 0
 
         self.num_users = self.dataset.n_users
         self.num_items = self.dataset.n_items
+
+        if user_sizes is None:
+            user_sizes = np.ones(self.num_users) * 128
+            item_sizes = np.ones(self.num_items) * 128
 
         self.max_emb = max(max(user_sizes), max(item_sizes))
 

@@ -5,7 +5,7 @@ import sys
 if len(sys.argv) > 1:
     os.environ["CUDA_VISIBLE_DEVICES"] = sys.argv[1]
 GPU = torch.cuda.is_available()
-device = torch.device('cuda' if GPU else "cpu")
+device = torch.device('cuda:1' if GPU else "cpu")
 MAX_EMB_SIZE = 128
 MIN_EMB_SIZE = 1
 SEED = 42

@@ -72,6 +72,13 @@ class ImplicitCF(object):
             df = pd.read_csv(
                 filename, sep=',', header=0, names=header, engine='python', dtype=dtypes
             )
+        elif dataset == 'ml-1m':
+            filename = 'data/ml-1m/ratings.dat'
+            header = ['userID', 'itemID', 'rating', 'timestamp']
+            dtypes = {h: np.int32 for h in header}
+            df = pd.read_csv(
+                filename, sep='::', header=0, names=header, engine='python', dtype=dtypes
+            )
         else:
             raise ValueError('Invalid dataset!')
 

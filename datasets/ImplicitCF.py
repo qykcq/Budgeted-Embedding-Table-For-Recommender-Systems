@@ -80,7 +80,7 @@ class ImplicitCF(object):
                 filename, sep='::', header=0, names=header, engine='python', dtype=dtypes
             )
         else:
-            raise ValueError('Invalid dataset!')
+            raise ValueError('Invalid dataset: ', dataset)
 
         train, test = python_stratified_split(df, ratio=[0.75, 0.25])
         if with_validation:

@@ -5,6 +5,7 @@ from base_recsys.LightGCN import LightGCN
 
 for ds in ['yelp', 'gowalla', 'ml-1m']:
   print('Dataset = ', ds)
+  config.DATASET_NAME = ds
   config.BASE_MODEL = 'lightgcn'
   dataset = initialize_dataset(with_validation=True)
   recsys = LightGCN(dataset).to(config.device)
